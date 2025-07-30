@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <AssemblyName>Microsoft.EntityFrameworkCore.AzureTable.Benchmarks</AssemblyName>
+    <RootNamespace>Microsoft.EntityFrameworkCore.AzureTable.Benchmarks</RootNamespace>
+    <OutputType>Exe</OutputType>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="BenchmarkDotNet" />
+    <PackageReference Include="Azure.Data.Tables" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\EFCore.AzureTable\EFCore.AzureTable.csproj" />
+    <ProjectReference Include="..\..\src\EFCore\EFCore.csproj" />
+  </ItemGroup>
+
+</Project>

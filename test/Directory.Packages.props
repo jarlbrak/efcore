@@ -4,6 +4,7 @@
     <!-- testing dependencies -->
     <PackageVersion Include="Microsoft.CodeAnalysis.CSharp.Analyzer.Testing.XUnit" Version="$(MicrosoftCodeAnalysisTestingVersion)" />
     <PackageVersion Include="Microsoft.CodeAnalysis.CSharp.CodeFix.Testing.XUnit" Version="$(MicrosoftCodeAnalysisTestingVersion)" />
+    <PackageVersion Include="Moq" Version="4.20.70" />
 
     <!-- dependencies only used in tests -->
     <PackageVersion Include="Azure.Identity" Version="$(AzureIdentityVersion)" />

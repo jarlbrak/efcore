@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="NoConnectionConfiguration" xml:space="preserve">
+    <value>Azure Table Storage connection must be configured. Provide either a connection string, account name and key, or service URI with SAS token.</value>
+  </data>
+  <data name="RelationshipsNotSupported" xml:space="preserve">
+    <value>Azure Table Storage does not support relationships between entities. Navigation properties must be ignored or handled client-side.</value>
+  </data>
+  <data name="ComplexTypesNotSupported" xml:space="preserve">
+    <value>Complex types are not directly supported by Azure Table Storage. Consider serializing to JSON or using primitive properties.</value>
+  </data>
+  <data name="CollectionsNotSupported" xml:space="preserve">
+    <value>Collection properties are not supported by Azure Table Storage. Consider storing as serialized JSON or using separate entities.</value>
+  </data>
+  <data name="PartitionKeyRequired" xml:space="preserve">
+    <value>Azure Table entities require a PartitionKey property. Configure using HasPartitionKey() or use the [PartitionKey] attribute.</value>
+  </data>
+  <data name="RowKeyRequired" xml:space="preserve">
+    <value>Azure Table entities require a RowKey property. Configure using HasRowKey() or use the [RowKey] attribute.</value>
+  </data>
+  <data name="CrossPartitionQueriesWarning" xml:space="preserve">
+    <value>Cross-partition queries may have poor performance. Consider filtering by PartitionKey when possible.</value>
+  </data>
+  <data name="UnsupportedLinqOperator" xml:space="preserve">
+    <value>LINQ operator '{operator}' is not supported by Azure Table Storage. Only basic filtering, ordering, and projection are supported.</value>
+  </data>
+  <data name="MissingPartitionKey" xml:space="preserve">
+    <value>Entity type '{entityType}' is missing a partition key. All Azure Table entities must have a partition key configured using HasPartitionKey() or the [PartitionKey] attribute.</value>
+  </data>
+  <data name="MissingRowKey" xml:space="preserve">
+    <value>Entity type '{entityType}' is missing a row key. All Azure Table entities must have a row key configured using HasRowKey() or the [RowKey] attribute.</value>
+  </data>
+  <data name="InvalidPartitionKeyType" xml:space="preserve">
+    <value>The partition key property '{propertyName}' on entity type '{entityType}' must be of type string, but was '{typeName}'.</value>
+  </data>
+  <data name="InvalidRowKeyType" xml:space="preserve">
+    <value>The row key property '{propertyName}' on entity type '{entityType}' must be of type string, but was '{typeName}'.</value>
+  </data>
+  <data name="SamePropertyPartitionAndRowKey" xml:space="preserve">
+    <value>The same property '{propertyName}' on entity type '{entityType}' cannot be used as both partition key and row key.</value>
+  </data>
+  <data name="UnsupportedPropertyType" xml:space="preserve">
+    <value>Property '{propertyName}' on entity type '{entityType}' has type '{typeName}' which is not supported by Azure Table Storage.</value>
+  </data>
+  <data name="ComplexTypeWillBeJsonSerialized" xml:space="preserve">
+    <value>Property '{propertyName}' on entity type '{entityType}' has complex type '{typeName}' which will be JSON serialized. This may impact query performance and functionality.</value>
+  </data>
+</root>

@@ -37,6 +37,7 @@
 
     <!-- Azure SDK for .NET dependencies -->
     <PackageVersion Include="Microsoft.Azure.Cosmos" Version="3.49.0" />
+    <PackageVersion Include="Azure.Data.Tables" Version="12.8.3" />
 
     <!-- SQL Server dependencies -->
     <PackageVersion Include="Microsoft.Data.SqlClient" Version="5.1.6" />
