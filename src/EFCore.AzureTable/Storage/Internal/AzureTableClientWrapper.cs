@@ -4,6 +4,7 @@
 using Azure.Data.Tables;
 using Azure;
 using Microsoft.EntityFrameworkCore.AzureTable.Infrastructure.Internal;
+using Microsoft.EntityFrameworkCore.Utilities;
 
 namespace Microsoft.EntityFrameworkCore.AzureTable.Storage.Internal;
 
