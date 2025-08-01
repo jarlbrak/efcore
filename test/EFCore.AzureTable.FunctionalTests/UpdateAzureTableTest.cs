@@ -367,14 +367,14 @@ public class UpdateAzureTableTest : IClassFixture<UpdateAzureTableTest.UpdateAzu
         {
             modelBuilder.Entity<UpdateEntity>(entity =>
             {
-                entity.ToAzureTable("UpdateEntities");
+                entity.ToTable("UpdateEntities");
                 entity.HasPartitionKey(e => e.PartitionKey);
                 entity.HasRowKey(e => e.RowKey);
             });
 
             modelBuilder.Entity<ConcurrentEntity>(entity =>
             {
-                entity.ToAzureTable("ConcurrentEntities");
+                entity.ToTable("ConcurrentEntities");
                 entity.HasPartitionKey(e => e.PartitionKey);
                 entity.HasRowKey(e => e.RowKey);
                 
@@ -388,7 +388,7 @@ public class UpdateAzureTableTest : IClassFixture<UpdateAzureTableTest.UpdateAzu
 
             modelBuilder.Entity<ComputedEntity>(entity =>
             {
-                entity.ToAzureTable("ComputedEntities");
+                entity.ToTable("ComputedEntities");
                 entity.HasPartitionKey(e => e.PartitionKey);
                 entity.HasRowKey(e => e.RowKey);
                 
@@ -401,7 +401,7 @@ public class UpdateAzureTableTest : IClassFixture<UpdateAzureTableTest.UpdateAzu
 
             modelBuilder.Entity<ComplexEntity>(entity =>
             {
-                entity.ToAzureTable("ComplexEntities");
+                entity.ToTable("ComplexEntities");
                 entity.HasPartitionKey(e => e.PartitionKey);
                 entity.HasRowKey(e => e.RowKey);
                 

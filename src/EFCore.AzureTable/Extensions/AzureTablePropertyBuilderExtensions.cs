@@ -45,6 +45,37 @@ public static class AzureTablePropertyBuilderExtensions
     }
 
     /// <summary>
+    ///     Configures the Azure Table column name for this property.
+    /// </summary>
+    /// <param name="propertyBuilder">The builder for the property being configured.</param>
+    /// <param name="columnName">The name to use for the column in Azure Table Storage.</param>
+    /// <returns>The same builder instance so that multiple configuration calls can be chained.</returns>
+    public static PropertyBuilder ToAzureTableColumn(this PropertyBuilder propertyBuilder, string columnName)
+    {
+        Check.NotNull(propertyBuilder, nameof(propertyBuilder));
+        Check.NotNull(columnName, nameof(columnName));
+
+        propertyBuilder.Metadata.SetAzureTableColumn(columnName);
+        return propertyBuilder;
+    }
+
+    /// <summary>
+    ///     Configures the Azure Table column name for this property.
+    /// </summary>
+    /// <typeparam name="TProperty">The type of the property being configured.</typeparam>
+    /// <param name="propertyBuilder">The builder for the property being configured.</param>
+    /// <param name="columnName">The name to use for the column in Azure Table Storage.</param>
+    /// <returns>The same builder instance so that multiple configuration calls can be chained.</returns>
+    public static PropertyBuilder<TProperty> ToAzureTableColumn<TProperty>(this PropertyBuilder<TProperty> propertyBuilder, string columnName)
+    {
+        Check.NotNull(propertyBuilder, nameof(propertyBuilder));
+        Check.NotNull(columnName, nameof(columnName));
+
+        propertyBuilder.Metadata.SetAzureTableColumn(columnName);
+        return propertyBuilder;
+    }
+
+    /// <summary>
     ///     Configures this property as the partition key for the entity.
     /// </summary>
     /// <param name="propertyBuilder">The builder for the property being configured.</param>

@@ -14,7 +14,7 @@ public class AzureTableMetadataExtensionsTest
         var modelBuilder = CreateModelBuilder();
         var entityTypeBuilder = modelBuilder.Entity<TestEntity>();
 
-        entityTypeBuilder.ToAzureTable("CustomTable");
+        entityTypeBuilder.ToTable("CustomTable");
 
         var entityType = entityTypeBuilder.Metadata;
         Assert.Equal("CustomTable", entityType.GetAzureTableName());

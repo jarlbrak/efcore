@@ -234,7 +234,7 @@ public class ConfigPatternsAzureTableTest : IClassFixture<ConfigPatternsAzureTab
         {
             modelBuilder.Entity<ConfigCustomer>(entity =>
             {
-                entity.ToAzureTable("ConfigCustomers");
+                entity.ToTable("ConfigCustomers");
                 entity.HasPartitionKey(e => e.Country);
                 entity.HasRowKey(e => e.CustomerId);
             });

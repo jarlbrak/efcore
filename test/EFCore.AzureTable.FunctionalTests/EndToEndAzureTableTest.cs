@@ -404,7 +404,7 @@ public class EndToEndAzureTableTest : IClassFixture<EndToEndAzureTableTest.EndTo
         {
             modelBuilder.Entity<Customer>(entity =>
             {
-                entity.ToAzureTable("Customers");
+                entity.ToTable("Customers");
                 entity.HasPartitionKey(c => c.Region);
                 entity.HasRowKey(c => c.Id);
                 entity.Property(c => c.ETag).IsConcurrencyToken().ValueGeneratedOnAddOrUpdate();
@@ -413,7 +413,7 @@ public class EndToEndAzureTableTest : IClassFixture<EndToEndAzureTableTest.EndTo
 
             modelBuilder.Entity<CustomerWithCollections>(entity =>
             {
-                entity.ToAzureTable("CustomersWithCollections");
+                entity.ToTable("CustomersWithCollections");
                 entity.HasPartitionKey(c => c.Region);
                 entity.HasRowKey(c => c.Id);
                 entity.Property(c => c.ETag).IsConcurrencyToken().ValueGeneratedOnAddOrUpdate();
@@ -422,7 +422,7 @@ public class EndToEndAzureTableTest : IClassFixture<EndToEndAzureTableTest.EndTo
 
             modelBuilder.Entity<CustomerWithNestedCollections>(entity =>
             {
-                entity.ToAzureTable("CustomersWithNestedCollections");
+                entity.ToTable("CustomersWithNestedCollections");
                 entity.HasPartitionKey(c => c.Region);
                 entity.HasRowKey(c => c.Id);
                 entity.Property(c => c.ETag).IsConcurrencyToken().ValueGeneratedOnAddOrUpdate();

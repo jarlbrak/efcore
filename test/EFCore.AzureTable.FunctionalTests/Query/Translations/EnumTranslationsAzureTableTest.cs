@@ -322,7 +322,7 @@ public class EnumTranslationsAzureTableTest : IClassFixture<EnumTranslationsAzur
         {
             modelBuilder.Entity<EnumEntity>(entity =>
             {
-                entity.ToAzureTable("EnumEntities");
+                entity.ToTable("EnumEntities");
                 entity.HasPartitionKey(e => e.PartitionKey);
                 entity.HasRowKey(e => e.Id);
                 

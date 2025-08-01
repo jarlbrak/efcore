@@ -22,12 +22,21 @@ Define your entities:
 ```csharp
 public class Customer
 {
-    public string Region { get; set; } = null!;     // Partition Key
-    public string CustomerId { get; set; } = null!; // Row Key
+    public string Id { get; set; } = null!;
+    public string TenantId { get; set; } = null!;
     public string Name { get; set; } = null!;
     public string Email { get; set; } = null!;
     public DateTime CreatedDate { get; set; }
-    public string? ETag { get; set; }               // Concurrency token
+}
+```
+
+Configure your DbContext:
+
+```csharp
+protected override void OnModelCreating(ModelBuilder modelBuilder)
+{
+    modelBuilder.Entity<Customer>().ToTable("Customers");
+    // Keys are automatically discovered: Id -> RowKey, TenantId -> PartitionKey
 }
 ```
 
@@ -56,11 +65,14 @@ var customers = await context.Customers
 - ✅ Bulk operations within partitions
 - ✅ Complex type serialization (JSON)
 - ✅ Comprehensive type mapping system
+- ✅ **Automatic key discovery** - Uses EF Core conventions to find partition and row keys
 
-### Recent Improvements (v9.0)
-- ✅ **Parameter Resolution Fix** - Resolved critical ASP.NET Identity integration issues
+### Key Improvements (v9.0)
+- ✅ **ASP.NET Identity Support** - Full parameter resolution for Identity integration
 - ✅ **Enhanced Security** - Eliminated dynamic compilation vulnerabilities
 - ✅ **Performance Optimizations** - Execution-time parameter resolution
+- ✅ **Value Converter Support** - Automatic conversion for non-string keys
+- ✅ **Shadow Properties** - Automatic handling of system properties
 - ✅ **Robust Error Handling** - Comprehensive validation and diagnostics
 
 ## Important Considerations

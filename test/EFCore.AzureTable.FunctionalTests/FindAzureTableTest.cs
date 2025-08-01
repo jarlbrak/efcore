@@ -304,7 +304,7 @@ public class FindAzureTableTest : IClassFixture<FindAzureTableTest.FindAzureTabl
         {
             modelBuilder.Entity<FindEntity>(entity =>
             {
-                entity.ToAzureTable("FindEntities");
+                entity.ToTable("FindEntities");
                 entity.HasPartitionKey(e => e.Country);
                 entity.HasRowKey(e => e.CustomerId);
                 
@@ -314,14 +314,14 @@ public class FindAzureTableTest : IClassFixture<FindAzureTableTest.FindAzureTabl
 
             modelBuilder.Entity<Order>(entity =>
             {
-                entity.ToAzureTable("Orders");
+                entity.ToTable("Orders");
                 entity.HasPartitionKey(e => e.Country);
                 entity.HasRowKey(e => e.OrderId);
             });
 
             modelBuilder.Entity<GuidKeyEntity>(entity =>
             {
-                entity.ToAzureTable("GuidKeyEntities");
+                entity.ToTable("GuidKeyEntities");
                 entity.HasPartitionKey(e => e.PartitionKey);
                 entity.HasRowKey(e => e.Id);
             });

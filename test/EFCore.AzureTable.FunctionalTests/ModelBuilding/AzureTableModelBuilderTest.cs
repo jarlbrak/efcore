@@ -326,7 +326,7 @@ public class AzureTableModelBuilderTest : IClassFixture<AzureTableModelBuilderTe
         {
             modelBuilder.Entity<TestEntity>(entity =>
             {
-                entity.ToAzureTable("TestEntities");
+                entity.ToTable("TestEntities");
                 entity.HasPartitionKey(e => e.PartitionKey);
                 entity.HasRowKey(e => e.RowKey);
                 
@@ -355,7 +355,7 @@ public class AzureTableModelBuilderTest : IClassFixture<AzureTableModelBuilderTe
 
             modelBuilder.Entity<RelatedEntity>(entity =>
             {
-                entity.ToAzureTable("RelatedEntities");
+                entity.ToTable("RelatedEntities");
                 entity.HasPartitionKey(e => e.PartitionKey);
                 entity.HasRowKey(e => e.Id);
             });

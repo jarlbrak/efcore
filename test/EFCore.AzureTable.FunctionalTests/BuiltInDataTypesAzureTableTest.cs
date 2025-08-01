@@ -96,35 +96,35 @@ public class BuiltInDataTypesAzureTableTest(BuiltInDataTypesAzureTableTest.Built
             // Note: Azure Table Storage requires string keys, so integers are converted to strings
             modelBuilder.Entity<BuiltInDataTypes>(entity =>
             {
-                entity.ToAzureTable("BuiltInDataTypes");
+                entity.ToTable("BuiltInDataTypes");
                 entity.HasPartitionKey(e => e.PartitionId);
                 entity.HasRowKey(e => e.Id);
             });
 
             modelBuilder.Entity<BuiltInDataTypesShadow>(entity =>
             {
-                entity.ToAzureTable("BuiltInDataTypesShadow");
+                entity.ToTable("BuiltInDataTypesShadow");
                 entity.HasPartitionKey("PartitionId");
                 entity.HasRowKey("Id");
             });
 
             modelBuilder.Entity<BuiltInNullableDataTypes>(entity =>
             {
-                entity.ToAzureTable("BuiltInNullableDataTypes");
+                entity.ToTable("BuiltInNullableDataTypes");
                 entity.HasPartitionKey(e => e.PartitionId);
                 entity.HasRowKey(e => e.Id);
             });
 
             modelBuilder.Entity<BuiltInNullableDataTypesShadow>(entity =>
             {
-                entity.ToAzureTable("BuiltInNullableDataTypesShadow");
+                entity.ToTable("BuiltInNullableDataTypesShadow");
                 entity.HasPartitionKey("PartitionId");
                 entity.HasRowKey("Id");
             });
 
             modelBuilder.Entity<MaxLengthDataTypes>(entity =>
             {
-                entity.ToAzureTable("MaxLengthDataTypes");
+                entity.ToTable("MaxLengthDataTypes");
                 entity.HasPartitionKey(e => e.Id);
                 // Use string property as row key since ByteArray5 is byte[]
                 entity.HasRowKey(e => e.String3);
@@ -132,7 +132,7 @@ public class BuiltInDataTypesAzureTableTest(BuiltInDataTypesAzureTableTest.Built
 
             modelBuilder.Entity<UnicodeDataTypes>(entity =>
             {
-                entity.ToAzureTable("UnicodeDataTypes");
+                entity.ToTable("UnicodeDataTypes");
                 entity.HasPartitionKey(e => e.Id);
                 entity.HasRowKey(e => e.StringDefault);
             });
@@ -142,7 +142,7 @@ public class BuiltInDataTypesAzureTableTest(BuiltInDataTypesAzureTableTest.Built
 
             modelBuilder.Entity<StringKeyDataType>(entity =>
             {
-                entity.ToAzureTable("StringKeyDataTypes");
+                entity.ToTable("StringKeyDataTypes");
                 entity.HasPartitionKey(e => e.Id);
                 // Use a shadow property as row key since there's no other suitable property
                 entity.Property<string>("RowKey");
@@ -151,28 +151,28 @@ public class BuiltInDataTypesAzureTableTest(BuiltInDataTypesAzureTableTest.Built
 
             modelBuilder.Entity<EmailTemplate>(entity =>
             {
-                entity.ToAzureTable("EmailTemplates");
+                entity.ToTable("EmailTemplates");
                 entity.HasPartitionKey(e => e.Id);
                 entity.HasRowKey(e => e.TemplateType);
             });
 
             modelBuilder.Entity<ObjectBackedDataTypes>(entity =>
             {
-                entity.ToAzureTable("ObjectBackedDataTypes");
+                entity.ToTable("ObjectBackedDataTypes");
                 entity.HasPartitionKey(e => e.Id);
                 entity.HasRowKey(e => e.Enum64);
             });
 
             modelBuilder.Entity<NullableBackedDataTypes>(entity =>
             {
-                entity.ToAzureTable("NullableBackedDataTypes");
+                entity.ToTable("NullableBackedDataTypes");
                 entity.HasPartitionKey(e => e.Id);
                 entity.HasRowKey(e => e.Enum64);
             });
 
             modelBuilder.Entity<NonNullableBackedDataTypes>(entity =>
             {
-                entity.ToAzureTable("NonNullableBackedDataTypes");
+                entity.ToTable("NonNullableBackedDataTypes");
                 entity.HasPartitionKey(e => e.Id);
                 entity.HasRowKey(e => e.Enum64);
             });

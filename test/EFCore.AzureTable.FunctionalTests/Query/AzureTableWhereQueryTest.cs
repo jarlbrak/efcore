@@ -293,14 +293,14 @@ public class AzureTableWhereQueryTest : IClassFixture<AzureTableWhereQueryTest.A
         {
             modelBuilder.Entity<Customer>(entity =>
             {
-                entity.ToAzureTable("Customers");
+                entity.ToTable("Customers");
                 entity.HasPartitionKey(e => e.Country);
                 entity.HasRowKey(e => e.CustomerID);
             });
 
             modelBuilder.Entity<Order>(entity =>
             {
-                entity.ToAzureTable("Orders");
+                entity.ToTable("Orders");
                 entity.HasPartitionKey(e => e.Country);
                 entity.HasRowKey(e => e.OrderID);
             });

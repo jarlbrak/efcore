@@ -323,7 +323,7 @@ public class StringTranslationsAzureTableTest : IClassFixture<StringTranslations
         {
             modelBuilder.Entity<StringEntity>(entity =>
             {
-                entity.ToAzureTable("StringEntities");
+                entity.ToTable("StringEntities");
                 entity.HasPartitionKey(e => e.PartitionKey);
                 entity.HasRowKey(e => e.Id);
             });

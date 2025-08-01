@@ -288,7 +288,7 @@ public class GuidTranslationsAzureTableTest : IClassFixture<GuidTranslationsAzur
         {
             modelBuilder.Entity<GuidEntity>(entity =>
             {
-                entity.ToAzureTable("GuidEntities");
+                entity.ToTable("GuidEntities");
                 entity.HasPartitionKey(e => e.PartitionKey);
                 entity.HasRowKey(e => e.Id);
             });

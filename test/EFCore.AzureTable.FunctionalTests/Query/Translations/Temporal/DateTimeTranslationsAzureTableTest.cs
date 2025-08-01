@@ -349,7 +349,7 @@ public class DateTimeTranslationsAzureTableTest : IClassFixture<DateTimeTranslat
         {
             modelBuilder.Entity<TemporalEntity>(entity =>
             {
-                entity.ToAzureTable("TemporalEntities");
+                entity.ToTable("TemporalEntities");
                 entity.HasPartitionKey(e => e.PartitionKey);
                 entity.HasRowKey(e => e.Id);
             });

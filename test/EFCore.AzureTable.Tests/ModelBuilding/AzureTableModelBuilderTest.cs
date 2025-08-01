@@ -40,7 +40,7 @@ public class AzureTableModelBuilderTest
         var modelBuilder = CreateModelBuilder();
         modelBuilder.Entity<TestEntity>(entity =>
         {
-            entity.ToAzureTable("CustomTableName");
+            entity.ToTable("CustomTableName");
             entity.HasPartitionKey(e => e.Region);
             entity.HasRowKey(e => e.Id);
         });
@@ -190,14 +190,14 @@ public class AzureTableModelBuilderTest
         
         modelBuilder.Entity<TestEntity>(entity =>
         {
-            entity.ToAzureTable("TestEntities");
+            entity.ToTable("TestEntities");
             entity.HasPartitionKey(e => e.Region);
             entity.HasRowKey(e => e.Id);
         });
 
         modelBuilder.Entity<AnotherEntity>(entity =>
         {
-            entity.ToAzureTable("AnotherEntities");
+            entity.ToTable("AnotherEntities");
             entity.HasPartitionKey(e => e.Category);
             entity.HasRowKey(e => e.Code);
         });

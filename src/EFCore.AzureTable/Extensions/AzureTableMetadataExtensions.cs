@@ -114,12 +114,28 @@ public static class AzureTableMetadataExtensions
         => property[AzureTableAnnotationNames.PropertyName] as string;
 
     /// <summary>
+    ///     Gets the Azure Table Storage column name for the property.
+    /// </summary>
+    /// <param name="property">The property.</param>
+    /// <returns>The Azure Table Storage column name, or null to use the CLR property name.</returns>
+    public static string? GetAzureTableColumn(this IReadOnlyProperty property)
+        => property[AzureTableAnnotationNames.PropertyName] as string;
+
+    /// <summary>
     ///     Sets the Azure Table Storage property name for the property.
     /// </summary>
     /// <param name="property">The property.</param>
     /// <param name="propertyName">The Azure Table Storage property name.</param>
     public static void SetPropertyName(this IMutableProperty property, string? propertyName)
         => property.SetOrRemoveAnnotation(AzureTableAnnotationNames.PropertyName, propertyName);
+
+    /// <summary>
+    ///     Sets the Azure Table Storage column name for the property.
+    /// </summary>
+    /// <param name="property">The property.</param>
+    /// <param name="columnName">The Azure Table Storage column name.</param>
+    public static void SetAzureTableColumn(this IMutableProperty property, string? columnName)
+        => property.SetOrRemoveAnnotation(AzureTableAnnotationNames.PropertyName, columnName);
 
     /// <summary>
     ///     Gets whether the property is used as a partition key.
@@ -226,6 +242,22 @@ public static class AzureTableMetadataExtensions
     /// <param name="property">The property to use as timestamp.</param>
     public static void SetTimestampProperty(this IConventionEntityType entityType, IConventionProperty? property)
         => entityType.SetOrRemoveAnnotation(AzureTableAnnotationNames.Timestamp, property?.Name);
+    
+    /// <summary>
+    ///     Gets the Azure Table Storage column name for the property (convention overload).
+    /// </summary>
+    /// <param name="property">The property.</param>
+    /// <returns>The Azure Table Storage column name, or null to use the CLR property name.</returns>
+    public static string? GetAzureTableColumn(this IConventionProperty property)
+        => property[AzureTableAnnotationNames.PropertyName] as string;
+
+    /// <summary>
+    ///     Sets the Azure Table Storage column name for the property (convention overload).
+    /// </summary>
+    /// <param name="property">The property.</param>
+    /// <param name="columnName">The Azure Table Storage column name.</param>
+    public static void SetAzureTableColumn(this IConventionProperty property, string? columnName)
+        => property.SetOrRemoveAnnotation(AzureTableAnnotationNames.PropertyName, columnName);
     
     #endregion
 }

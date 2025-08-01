@@ -25,7 +25,7 @@ public class ModelValidationAzureTableTest : IClassFixture<ModelValidationAzureT
 
         modelBuilder.Entity<ValidEntity>(entity =>
         {
-            entity.ToAzureTable("ValidEntities");
+            entity.ToTable("ValidEntities");
             entity.HasPartitionKey(e => e.PartitionKey);
             entity.HasRowKey(e => e.RowKey);
         });
@@ -45,7 +45,7 @@ public class ModelValidationAzureTableTest : IClassFixture<ModelValidationAzureT
 
         modelBuilder.Entity<InvalidEntity>(entity =>
         {
-            entity.ToAzureTable("InvalidEntities");
+            entity.ToTable("InvalidEntities");
             // Missing partition key configuration
             entity.HasRowKey(e => e.Id);
         });
@@ -61,7 +61,7 @@ public class ModelValidationAzureTableTest : IClassFixture<ModelValidationAzureT
 
         modelBuilder.Entity<InvalidEntity>(entity =>
         {
-            entity.ToAzureTable("InvalidEntities");
+            entity.ToTable("InvalidEntities");
             entity.HasPartitionKey(e => e.Id);
             // Missing row key configuration
         });
@@ -77,7 +77,7 @@ public class ModelValidationAzureTableTest : IClassFixture<ModelValidationAzureT
 
         modelBuilder.Entity<BaseEntity>(entity =>
         {
-            entity.ToAzureTable("Entities");
+            entity.ToTable("Entities");
             entity.HasPartitionKey(e => e.PartitionKey);
             entity.HasRowKey(e => e.RowKey);
             entity.HasDiscriminator<string>("Discriminator");
@@ -108,7 +108,7 @@ public class ModelValidationAzureTableTest : IClassFixture<ModelValidationAzureT
 
         modelBuilder.Entity<EntityWithConcurrency>(entity =>
         {
-            entity.ToAzureTable("ConcurrencyEntities");
+            entity.ToTable("ConcurrencyEntities");
             entity.HasPartitionKey(e => e.PartitionKey);
             entity.HasRowKey(e => e.RowKey);
             entity.Property(e => e.ETag).IsConcurrencyToken();

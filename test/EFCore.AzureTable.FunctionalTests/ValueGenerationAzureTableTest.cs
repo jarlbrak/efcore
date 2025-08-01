@@ -303,7 +303,7 @@ public class ValueGenerationAzureTableTest : IClassFixture<ValueGenerationAzureT
         {
             modelBuilder.Entity<GeneratedEntity>(entity =>
             {
-                entity.ToAzureTable("GeneratedEntities");
+                entity.ToTable("GeneratedEntities");
                 entity.HasPartitionKey(e => e.PartitionKey);
                 entity.HasRowKey(e => e.RowKey);
                 
@@ -317,7 +317,7 @@ public class ValueGenerationAzureTableTest : IClassFixture<ValueGenerationAzureT
 
             modelBuilder.Entity<CustomGeneratedEntity>(entity =>
             {
-                entity.ToAzureTable("CustomGeneratedEntities");
+                entity.ToTable("CustomGeneratedEntities");
                 entity.HasPartitionKey(e => e.PartitionKey);
                 entity.HasRowKey(e => e.RowKey);
                 
@@ -327,7 +327,7 @@ public class ValueGenerationAzureTableTest : IClassFixture<ValueGenerationAzureT
 
             modelBuilder.Entity<ShadowPropertyEntity>(entity =>
             {
-                entity.ToAzureTable("ShadowPropertyEntities");
+                entity.ToTable("ShadowPropertyEntities");
                 entity.HasPartitionKey(e => e.PartitionKey);
                 entity.HasRowKey(e => e.RowKey);
                 
@@ -337,7 +337,7 @@ public class ValueGenerationAzureTableTest : IClassFixture<ValueGenerationAzureT
 
             modelBuilder.Entity<DefaultValueEntity>(entity =>
             {
-                entity.ToAzureTable("DefaultValueEntities");
+                entity.ToTable("DefaultValueEntities");
                 entity.HasPartitionKey(e => e.PartitionKey);
                 entity.HasRowKey(e => e.RowKey);
                 

@@ -304,7 +304,7 @@ public class ConcurrencyAzureTableTest : IClassFixture<ConcurrencyAzureTableTest
         {
             modelBuilder.Entity<ConcurrencyTestEntity>(entity =>
             {
-                entity.ToAzureTable("ConcurrencyTestEntities");
+                entity.ToTable("ConcurrencyTestEntities");
                 entity.HasPartitionKey(e => e.PartitionKey);
                 entity.HasRowKey(e => e.RowKey);
                 entity.Property(e => e.ETag).IsConcurrencyToken();

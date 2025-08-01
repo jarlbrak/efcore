@@ -317,7 +317,7 @@ public class SaveChangesAzureTableTest : IClassFixture<SaveChangesAzureTableTest
         {
             modelBuilder.Entity<SaveEntity>(entity =>
             {
-                entity.ToAzureTable("SaveEntities");
+                entity.ToTable("SaveEntities");
                 entity.HasPartitionKey(e => e.PartitionKey);
                 entity.HasRowKey(e => e.RowKey);
                 
@@ -328,7 +328,7 @@ public class SaveChangesAzureTableTest : IClassFixture<SaveChangesAzureTableTest
 
             modelBuilder.Entity<GeneratedEntity>(entity =>
             {
-                entity.ToAzureTable("GeneratedEntities");
+                entity.ToTable("GeneratedEntities");
                 entity.HasPartitionKey(e => e.PartitionKey);
                 entity.HasRowKey(e => e.RowKey);
                 
@@ -341,7 +341,7 @@ public class SaveChangesAzureTableTest : IClassFixture<SaveChangesAzureTableTest
 
             modelBuilder.Entity<ConvertedEntity>(entity =>
             {
-                entity.ToAzureTable("ConvertedEntities");
+                entity.ToTable("ConvertedEntities");
                 entity.HasPartitionKey(e => e.PartitionKey);
                 entity.HasRowKey(e => e.RowKey);
                 

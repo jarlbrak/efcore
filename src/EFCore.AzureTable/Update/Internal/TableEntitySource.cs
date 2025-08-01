@@ -63,9 +63,27 @@ public class TableEntitySource
     ///     doing so can result in application failures when updating to a new Entity Framework Core release.
     /// </summary>
     public virtual string GetPartitionKey(IUpdateEntry entry)
-        => _partitionKeyProperty is null
-            ? throw new InvalidOperationException($"No partition key property found for entity type {_entityType.DisplayName()}")
-            : (string)entry.GetCurrentProviderValue(_partitionKeyProperty)!;
+    {
+        if (_partitionKeyProperty is null)
+        {
+            throw new InvalidOperationException($"No partition key property found for entity type {_entityType.DisplayName()}");
+        }
+        
+        var value = _partitionKeyProperty.IsShadowProperty() 
+            ? entry.GetCurrentValue(_partitionKeyProperty)
+            : entry.GetCurrentProviderValue(_partitionKeyProperty);
+            
+        if (value == null)
+        {
+            throw new InvalidOperationException($"Partition key value is null for entity type {_entityType.DisplayName()}");
+        }
+        
+        // Apply value converter if needed
+        var converter = _partitionKeyProperty.GetValueConverter();
+        var convertedValue = converter != null ? converter.ConvertToProvider(value) : value;
+        
+        return convertedValue?.ToString() ?? throw new InvalidOperationException($"Partition key cannot be converted to string for entity type {_entityType.DisplayName()}");
+    }
 
     /// <summary>
     ///     This is an internal API that supports the Entity Framework Core infrastructure and not subject to
@@ -74,9 +92,27 @@ public class TableEntitySource
     ///     doing so can result in application failures when updating to a new Entity Framework Core release.
     /// </summary>
     public virtual string GetRowKey(IUpdateEntry entry)
-        => _rowKeyProperty is null
-            ? throw new InvalidOperationException($"No row key property found for entity type {_entityType.DisplayName()}")
-            : (string)entry.GetCurrentProviderValue(_rowKeyProperty)!;
+    {
+        if (_rowKeyProperty is null)
+        {
+            throw new InvalidOperationException($"No row key property found for entity type {_entityType.DisplayName()}");
+        }
+        
+        var value = _rowKeyProperty.IsShadowProperty() 
+            ? entry.GetCurrentValue(_rowKeyProperty)
+            : entry.GetCurrentProviderValue(_rowKeyProperty);
+            
+        if (value == null)
+        {
+            throw new InvalidOperationException($"Row key value is null for entity type {_entityType.DisplayName()}");
+        }
+        
+        // Apply value converter if needed
+        var converter = _rowKeyProperty.GetValueConverter();
+        var convertedValue = converter != null ? converter.ConvertToProvider(value) : value;
+        
+        return convertedValue?.ToString() ?? throw new InvalidOperationException($"Row key cannot be converted to string for entity type {_entityType.DisplayName()}");
+    }
 
     /// <summary>
     ///     This is an internal API that supports the Entity Framework Core infrastructure and not subject to
@@ -90,21 +126,25 @@ public class TableEntitySource
 
         foreach (var property in entry.EntityType.GetProperties())
         {
-            // Skip system properties
+            // Skip system properties and shadow properties (except ETag which needs special handling)
             if (property == _partitionKeyProperty || 
                 property == _rowKeyProperty || 
-                property == _timestampProperty)
+                property == _timestampProperty ||
+                (property.IsShadowProperty() && property != _etagProperty))
             {
                 continue;
             }
 
-            var value = entry.GetCurrentProviderValue(property);
+            var value = property.IsShadowProperty() 
+                ? entry.GetCurrentValue(property)
+                : entry.GetCurrentProviderValue(property);
+                
             if (value != null)
             {
                 var mapping = _typeMappingSource.FindMapping(property);
                 var storageValue = mapping?.Converter?.ConvertToProvider(value) ?? value;
                 
-                var columnName = property.Name;
+                var columnName = property.GetPropertyName() ?? property.Name;
                 tableEntity[columnName] = storageValue;
             }
         }

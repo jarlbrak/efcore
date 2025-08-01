@@ -41,24 +41,22 @@ For development with Azurite:
 
 ### 2. Define Your Entities
 
-Create entity classes with proper Azure Table attributes:
+Create your entity classes using standard EF Core conventions:
 
 ```csharp
 public class Customer
 {
-    public string Region { get; set; } = null!;     // Partition Key
-    public string CustomerId { get; set; } = null!; // Row Key
+    public string Id { get; set; } = null!;        // Automatically becomes RowKey
+    public string TenantId { get; set; } = null!;  // Automatically becomes PartitionKey
     public string Name { get; set; } = null!;
     public string Email { get; set; } = null!;
     public DateTime CreatedDate { get; set; }
-    public string? ETag { get; set; }               // Concurrency token
-    public DateTimeOffset? Timestamp { get; set; }  // Timestamp
 }
 
 public class Order
 {
-    public string CustomerId { get; set; } = null!; // Partition Key
-    public string OrderId { get; set; } = null!;    // Row Key
+    public string OrderId { get; set; } = null!;   // Automatically becomes RowKey
+    public string CustomerId { get; set; } = null!; // Automatically becomes PartitionKey
     public decimal Amount { get; set; }
     public DateTime OrderDate { get; set; }
     public OrderStatus Status { get; set; }
@@ -89,23 +87,9 @@ public class MyDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        // Configure Customer entity
-        modelBuilder.Entity<Customer>(entity =>
-        {
-            entity.ToTable("Customers");
-            entity.HasPartitionKey(c => c.Region);
-            entity.HasRowKey(c => c.CustomerId);
-            entity.Property(c => c.ETag).IsConcurrencyToken();
-            entity.Property(c => c.Timestamp).IsTimestamp();
-        });
-
-        // Configure Order entity
-        modelBuilder.Entity<Order>(entity =>
-        {
-            entity.ToTable("Orders");
-            entity.HasPartitionKey(o => o.CustomerId);
-            entity.HasRowKey(o => o.OrderId);
-        });
+        // Simple table configuration - keys are discovered automatically
+        modelBuilder.Entity<Customer>().ToTable("Customers");
+        modelBuilder.Entity<Order>().ToTable("Orders");
     }
 }
 ```
@@ -145,25 +129,25 @@ public async Task CreateCustomer(Customer customer)
 
 ```csharp
 // Point query (most efficient)
-public async Task<Customer?> GetCustomer(string region, string customerId)
+public async Task<Customer?> GetCustomer(string tenantId, string id)
 {
     return await _context.Customers
-        .FirstOrDefaultAsync(c => c.Region == region && c.CustomerId == customerId);
+        .FirstOrDefaultAsync(c => c.TenantId == tenantId && c.Id == id);
 }
 
 // Partition query
-public async Task<List<Customer>> GetCustomersByRegion(string region)
+public async Task<List<Customer>> GetCustomersByTenant(string tenantId)
 {
     return await _context.Customers
-        .Where(c => c.Region == region)
+        .Where(c => c.TenantId == tenantId)
         .ToListAsync();
 }
 
 // Filtered query
-public async Task<List<Customer>> GetRecentCustomers(string region, DateTime since)
+public async Task<List<Customer>> GetRecentCustomers(string tenantId, DateTime since)
 {
     return await _context.Customers
-        .Where(c => c.Region == region && c.CreatedDate > since)
+        .Where(c => c.TenantId == tenantId && c.CreatedDate > since)
         .ToListAsync();
 }
 ```
@@ -171,10 +155,10 @@ public async Task<List<Customer>> GetRecentCustomers(string region, DateTime sin
 ### Update
 
 ```csharp
-public async Task UpdateCustomer(string region, string customerId, string newEmail)
+public async Task UpdateCustomer(string tenantId, string id, string newEmail)
 {
     var customer = await _context.Customers
-        .FirstOrDefaultAsync(c => c.Region == region && c.CustomerId == customerId);
+        .FirstOrDefaultAsync(c => c.TenantId == tenantId && c.Id == id);
     
     if (customer != null)
     {
@@ -187,10 +171,10 @@ public async Task UpdateCustomer(string region, string customerId, string newEma
 ### Delete
 
 ```csharp
-public async Task DeleteCustomer(string region, string customerId)
+public async Task DeleteCustomer(string tenantId, string id)
 {
     var customer = await _context.Customers
-        .FirstOrDefaultAsync(c => c.Region == region && c.CustomerId == customerId);
+        .FirstOrDefaultAsync(c => c.TenantId == tenantId && c.Id == id);
     
     if (customer != null)
     {
@@ -210,7 +194,7 @@ Use the bulk operation extensions for better performance:
 public async Task BulkInsertCustomers(List<Customer> customers)
 {
     // Group by partition key for bulk operations
-    var partitionGroups = customers.GroupBy(c => c.Region);
+    var partitionGroups = customers.GroupBy(c => c.TenantId);
     
     foreach (var group in partitionGroups)
     {
@@ -218,8 +202,8 @@ public async Task BulkInsertCustomers(List<Customer> customers)
         await tableClient.BulkInsertAsync(
             group,
             group.Key,
-            c => c.CustomerId,
-            c => new TableEntity(c.Region, c.CustomerId)
+            c => c.Id,
+            c => new TableEntity(c.TenantId, c.Id)
             {
                 ["Name"] = c.Name,
                 ["Email"] = c.Email,
@@ -234,8 +218,8 @@ public async Task BulkInsertCustomers(List<Customer> customers)
 ```csharp
 public class Customer
 {
-    public string Region { get; set; } = null!;
-    public string CustomerId { get; set; } = null!;
+    public string Id { get; set; } = null!;
+    public string TenantId { get; set; } = null!;
     public string Name { get; set; } = null!;
     public Address Address { get; set; } = null!; // Will be JSON serialized
 }

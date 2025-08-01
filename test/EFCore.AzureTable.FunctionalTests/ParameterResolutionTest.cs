@@ -183,7 +183,7 @@ public class ParameterResolutionTest : IClassFixture<ParameterResolutionTest.Par
         {
             modelBuilder.Entity<Role>(entity =>
             {
-                entity.ToAzureTable("Roles");
+                entity.ToTable("Roles");
                 entity.HasPartitionKey(e => e.Country);
                 entity.HasRowKey(e => e.RoleId);
                 
@@ -195,7 +195,7 @@ public class ParameterResolutionTest : IClassFixture<ParameterResolutionTest.Par
 
             modelBuilder.Entity<User>(entity =>
             {
-                entity.ToAzureTable("Users");
+                entity.ToTable("Users");
                 entity.HasPartitionKey(e => e.Country);
                 entity.HasRowKey(e => e.UserId);
                 
@@ -208,7 +208,7 @@ public class ParameterResolutionTest : IClassFixture<ParameterResolutionTest.Par
 
             modelBuilder.Entity<UserRole>(entity =>
             {
-                entity.ToAzureTable("UserRoles");
+                entity.ToTable("UserRoles");
                 entity.HasPartitionKey(e => e.Country);
                 entity.HasRowKey(e => e.UserRoleId);
                 

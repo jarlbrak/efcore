@@ -37,10 +37,13 @@ public class AzureTableConventionSetBuilder : ProviderConventionSetBuilder
         conventionSet.Add(new AzureTableTableNameConvention(Dependencies));
         conventionSet.Add(new AzureTableETagPropertyConvention());
         conventionSet.Add(new AzureTablePartitionKeyInPrimaryKeyConvention(Dependencies));
+        conventionSet.Add(new AzureTableShadowPropertyConvention());
+        
+        // Add key discovery convention in the model finalizing phase
+        conventionSet.ModelFinalizingConventions.Add(new AzureTableKeyDiscoveryConvention(Dependencies));
 
         // Replace conventions with Azure Table-specific implementations
         conventionSet.Replace<ValueGenerationConvention>(new AzureTableValueGenerationConvention(Dependencies));
-        conventionSet.Replace<KeyDiscoveryConvention>(new AzureTableKeyDiscoveryConvention(Dependencies));
         conventionSet.Replace<DiscriminatorConvention>(new AzureTableDiscriminatorConvention(Dependencies));
 
         return conventionSet;

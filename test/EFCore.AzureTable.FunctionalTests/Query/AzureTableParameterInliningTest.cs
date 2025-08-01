@@ -222,7 +222,7 @@ public class AzureTableParameterInliningTest : IClassFixture<AzureTableParameter
         {
             modelBuilder.Entity<Role>(entity =>
             {
-                entity.ToAzureTable("Roles");
+                entity.ToTable("Roles");
                 entity.HasPartitionKey(e => e.Department);
                 entity.HasRowKey(e => e.RoleId);
             });

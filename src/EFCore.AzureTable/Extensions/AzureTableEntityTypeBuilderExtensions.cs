@@ -17,7 +17,7 @@ public static class AzureTableEntityTypeBuilderExtensions
     /// <param name="entityTypeBuilder">The builder for the entity type being configured.</param>
     /// <param name="tableName">The name of the table in Azure Table Storage.</param>
     /// <returns>The same builder instance so that multiple configuration calls can be chained.</returns>
-    public static EntityTypeBuilder ToAzureTable(this EntityTypeBuilder entityTypeBuilder, string tableName)
+    public static EntityTypeBuilder ToTable(this EntityTypeBuilder entityTypeBuilder, string tableName)
     {
         Check.NotNull(entityTypeBuilder, nameof(entityTypeBuilder));
         Check.NotNull(tableName, nameof(tableName));
@@ -33,7 +33,7 @@ public static class AzureTableEntityTypeBuilderExtensions
     /// <param name="entityTypeBuilder">The builder for the entity type being configured.</param>
     /// <param name="tableName">The name of the table in Azure Table Storage.</param>
     /// <returns>The same builder instance so that multiple configuration calls can be chained.</returns>
-    public static EntityTypeBuilder<TEntity> ToAzureTable<TEntity>(this EntityTypeBuilder<TEntity> entityTypeBuilder, string tableName)
+    public static EntityTypeBuilder<TEntity> ToTable<TEntity>(this EntityTypeBuilder<TEntity> entityTypeBuilder, string tableName)
         where TEntity : class
     {
         Check.NotNull(entityTypeBuilder, nameof(entityTypeBuilder));
@@ -42,6 +42,7 @@ public static class AzureTableEntityTypeBuilderExtensions
         entityTypeBuilder.Metadata.SetTableName(tableName);
         return entityTypeBuilder;
     }
+
 
     /// <summary>
     ///     Configures the partition key for this entity type.

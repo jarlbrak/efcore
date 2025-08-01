@@ -217,14 +217,14 @@ public class QueryTranslationAzureTableTest : IClassFixture<QueryTranslationAzur
         {
             modelBuilder.Entity<TestEntity>(entity =>
             {
-                entity.ToAzureTable("TestEntities");
+                entity.ToTable("TestEntities");
                 entity.HasPartitionKey(e => e.PartitionKey);
                 entity.HasRowKey(e => e.RowKey);
             });
 
             modelBuilder.Entity<RelatedEntity>(entity =>
             {
-                entity.ToAzureTable("RelatedEntities");
+                entity.ToTable("RelatedEntities");
                 entity.HasPartitionKey(e => e.PartitionKey);
                 entity.HasRowKey(e => e.RowKey);
             });

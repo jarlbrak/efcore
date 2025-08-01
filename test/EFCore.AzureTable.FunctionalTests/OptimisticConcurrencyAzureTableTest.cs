@@ -390,7 +390,7 @@ public class OptimisticConcurrencyAzureTableTest : IClassFixture<OptimisticConcu
         {
             modelBuilder.Entity<ConcurrencyEntity>(entity =>
             {
-                entity.ToAzureTable("ConcurrencyEntities");
+                entity.ToTable("ConcurrencyEntities");
                 entity.HasPartitionKey(e => e.PartitionKey);
                 entity.HasRowKey(e => e.RowKey);
                 
@@ -401,7 +401,7 @@ public class OptimisticConcurrencyAzureTableTest : IClassFixture<OptimisticConcu
 
             modelBuilder.Entity<MultiTokenEntity>(entity =>
             {
-                entity.ToAzureTable("MultiTokenEntities");
+                entity.ToTable("MultiTokenEntities");
                 entity.HasPartitionKey(e => e.PartitionKey);
                 entity.HasRowKey(e => e.RowKey);
                 
@@ -421,7 +421,7 @@ public class OptimisticConcurrencyAzureTableTest : IClassFixture<OptimisticConcu
 
             modelBuilder.Entity<ShadowConcurrencyEntity>(entity =>
             {
-                entity.ToAzureTable("ShadowConcurrencyEntities");
+                entity.ToTable("ShadowConcurrencyEntities");
                 entity.HasPartitionKey(e => e.PartitionKey);
                 entity.HasRowKey(e => e.RowKey);
                 
@@ -435,7 +435,7 @@ public class OptimisticConcurrencyAzureTableTest : IClassFixture<OptimisticConcu
 
             modelBuilder.Entity<TimestampEntity>(entity =>
             {
-                entity.ToAzureTable("TimestampEntities");
+                entity.ToTable("TimestampEntities");
                 entity.HasPartitionKey(e => e.PartitionKey);
                 entity.HasRowKey(e => e.RowKey);
                 

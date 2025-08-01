@@ -354,7 +354,7 @@ public class ValueConvertersAzureTableTest : IClassFixture<ValueConvertersAzureT
         {
             modelBuilder.Entity<ConverterEntity>(entity =>
             {
-                entity.ToAzureTable("ConverterEntities");
+                entity.ToTable("ConverterEntities");
                 entity.HasPartitionKey(e => e.PartitionKey);
                 entity.HasRowKey(e => e.RowKey);
                 

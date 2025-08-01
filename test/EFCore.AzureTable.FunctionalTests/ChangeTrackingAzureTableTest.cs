@@ -363,7 +363,7 @@ public class ChangeTrackingAzureTableTest : IClassFixture<ChangeTrackingAzureTab
         {
             modelBuilder.Entity<TrackedEntity>(entity =>
             {
-                entity.ToAzureTable("TrackedEntities");
+                entity.ToTable("TrackedEntities");
                 entity.HasPartitionKey(e => e.PartitionKey);
                 entity.HasRowKey(e => e.RowKey);
                 
@@ -374,14 +374,14 @@ public class ChangeTrackingAzureTableTest : IClassFixture<ChangeTrackingAzureTab
 
             modelBuilder.Entity<ComplexEntity>(entity =>
             {
-                entity.ToAzureTable("ComplexEntities");
+                entity.ToTable("ComplexEntities");
                 entity.HasPartitionKey(e => e.PartitionKey);
                 entity.HasRowKey(e => e.RowKey);
             });
 
             modelBuilder.Entity<ShadowEntity>(entity =>
             {
-                entity.ToAzureTable("ShadowEntities");
+                entity.ToTable("ShadowEntities");
                 entity.HasPartitionKey(e => e.PartitionKey);
                 entity.HasRowKey(e => e.RowKey);
                 
