@@ -472,7 +472,17 @@ public class AzureTableKeyDiscoveryConventionTest
             // No-op for testing
         }
 
+        public void StopProcessing(T? result)
+        {
+            // No-op for testing
+        }
+
         public void StopProcessingIfChanged(object? originalResult)
+        {
+            // No-op for testing
+        }
+
+        public void StopProcessingIfChanged(T? originalResult)
         {
             // No-op for testing
         }
@@ -485,6 +495,38 @@ public class AzureTableKeyDiscoveryConventionTest
         public void PreventConvention<TConvention>()
         {
             // No-op for testing
+        }
+
+        public IConventionBatch DelayConventions()
+        {
+            // No-op for testing - return a batch that does nothing
+            return new TestConventionBatch();
+        }
+
+        private class TestConventionBatch : IConventionBatch
+        {
+            public IConventionForeignKey? Run(IConventionForeignKey foreignKey) => foreignKey;
+            public IMetadataReference<IConventionForeignKey> Track(IConventionForeignKey foreignKey) => new TestMetadataReference(foreignKey);
+            public void Dispose() { }
+        }
+
+        private class TestMetadataReference : IMetadataReference<IConventionForeignKey>
+        {
+            public TestMetadataReference(IConventionForeignKey foreignKey)
+            {
+                Object = foreignKey;
+            }
+
+            public IConventionForeignKey Object { get; }
+            public void Dispose() { }
+        }
+
+        private class TestDisposable : IDisposable
+        {
+            public void Dispose()
+            {
+                // No-op
+            }
         }
     }
 }

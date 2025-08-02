@@ -3,6 +3,7 @@
 
 using System.Linq;
 using Microsoft.EntityFrameworkCore.Storage.Json;
+using Microsoft.EntityFrameworkCore.AzureTable.Storage.ValueConversion;
 
 namespace Microsoft.EntityFrameworkCore.AzureTable.Storage.Internal;
 
@@ -269,6 +270,9 @@ public class AzureTableBoolTypeMapping : AzureTableTypeMapping
 /// </summary>
 public class AzureTableDateTimeTypeMapping : AzureTableTypeMapping
 {
+    private static readonly AzureTableConverters.DateTimeToUtcConverter _utcConverter = new();
+    private static readonly AzureTableConverters.NullableDateTimeToUtcConverter _nullableUtcConverter = new();
+
     /// <summary>
     ///     This is an internal API that supports the Entity Framework Core infrastructure and not subject to
     ///     the same compatibility standards as public APIs. It may be changed or removed without notice in
@@ -276,7 +280,10 @@ public class AzureTableDateTimeTypeMapping : AzureTableTypeMapping
     ///     doing so can result in application failures when updating to a new Entity Framework Core release.
     /// </summary>
     public AzureTableDateTimeTypeMapping(Type clrType)
-        : base(clrType)
+        : base(
+            new CoreTypeMappingParameters(
+                clrType,
+                converter: GetConverterForType(clrType, useUtcConversion: true)))
     {
     }
 
@@ -299,6 +306,26 @@ public class AzureTableDateTimeTypeMapping : AzureTableTypeMapping
     /// </summary>
     protected override CoreTypeMapping Clone(CoreTypeMappingParameters parameters)
         => new AzureTableDateTimeTypeMapping(parameters);
+
+    private static ValueConverter? GetConverterForType(Type clrType, bool useUtcConversion = true)
+    {
+        if (!useUtcConversion)
+        {
+            return null;
+        }
+
+        if (clrType == typeof(DateTime))
+        {
+            return _utcConverter;
+        }
+        
+        if (clrType == typeof(DateTime?))
+        {
+            return _nullableUtcConverter;
+        }
+
+        return null;
+    }
 }
 
 /// <summary>

@@ -38,6 +38,10 @@ public class AzureTableConventionSetBuilder : ProviderConventionSetBuilder
         conventionSet.Add(new AzureTableETagPropertyConvention());
         conventionSet.Add(new AzureTablePartitionKeyInPrimaryKeyConvention(Dependencies));
         conventionSet.Add(new AzureTableShadowPropertyConvention());
+
+        // Add data annotation conventions - these should run early to take precedence
+        conventionSet.PropertyAddedConventions.Add(new AzureTablePartitionKeyDataAnnotationConvention(Dependencies));
+        conventionSet.PropertyAddedConventions.Add(new AzureTableRowKeyDataAnnotationConvention(Dependencies));
         
         // Add key discovery convention in the model finalizing phase
         conventionSet.ModelFinalizingConventions.Add(new AzureTableKeyDiscoveryConvention(Dependencies));

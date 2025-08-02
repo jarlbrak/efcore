@@ -80,6 +80,13 @@ public class AzureTableKeyDiscoveryConvention : IModelFinalizingConvention
 
     private static IConventionProperty? DiscoverPartitionKey(IConventionEntityType entityType)
     {
+        // Phase 0: Check if data annotations have already configured a partition key
+        var existingPartitionKey = entityType.GetPartitionKeyProperty();
+        if (existingPartitionKey != null)
+        {
+            return entityType.FindProperty(existingPartitionKey.Name);
+        }
+
         var properties = entityType.GetProperties().ToList();
         
         // Phase 1: Explicit property names
@@ -102,28 +109,18 @@ public class AzureTableKeyDiscoveryConvention : IModelFinalizingConvention
             return otherIdProperty;
         }
 
-        // Phase 3: If no suitable property found, create a shadow property using entity type name
-        if (rowKeyProperty != null)
-        {
-            var shadowPartitionKey = entityType.AddProperty(
-                "__PartitionKey",
-                typeof(string),
-                ConfigurationSource.Convention);
-            
-            if (shadowPartitionKey != null)
-            {
-                shadowPartitionKey.SetIsShadowProperty(true);
-                shadowPartitionKey.SetIsNullable(false);
-                shadowPartitionKey.SetDefaultValue(entityType.ShortName());
-                return shadowPartitionKey;
-            }
-        }
-
         return null;
     }
 
     private static IConventionProperty? DiscoverRowKey(IConventionEntityType entityType)
     {
+        // Phase 0: Check if data annotations have already configured a row key
+        var existingRowKey = entityType.GetRowKeyProperty();
+        if (existingRowKey != null)
+        {
+            return entityType.FindProperty(existingRowKey.Name);
+        }
+
         var properties = entityType.GetProperties().ToList();
         
         // Phase 1: Explicit property names

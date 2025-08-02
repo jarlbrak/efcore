@@ -93,6 +93,24 @@ public class AzureTableDbContextOptionsBuilder : IAzureTableDbContextOptionsBuil
     }
 
     /// <summary>
+    ///     Configures whether to automatically convert DateTime values to UTC for Azure Table Storage compatibility.
+    ///     Azure Table Storage requires DateTime values to have DateTimeKind.Utc. When enabled (default), the provider
+    ///     automatically converts DateTimeKind.Unspecified values to UTC and converts DateTimeKind.Local values using ToUniversalTime().
+    /// </summary>
+    /// <param name="useUtcDateTimeConversion">
+    ///     <see langword="true" /> to automatically convert DateTime values to UTC (default);
+    ///     <see langword="false" /> to disable automatic conversion (may require manual UTC conversion in application code).
+    /// </param>
+    /// <returns>The same builder instance so that multiple calls can be chained.</returns>
+    public virtual AzureTableDbContextOptionsBuilder UseUtcDateTimeConversion(bool useUtcDateTimeConversion = true)
+    {
+        var extension = GetOrCreateExtension().WithUtcDateTimeConversion(useUtcDateTimeConversion);
+        ((IDbContextOptionsBuilderInfrastructure)OptionsBuilder).AddOrUpdateExtension(extension);
+
+        return this;
+    }
+
+    /// <summary>
     ///     Configures the <see cref="IExecutionStrategy" /> to be used for Azure Table Storage operations.
     /// </summary>
     /// <param name="getExecutionStrategy">A factory for creating the execution strategy to use.</param>

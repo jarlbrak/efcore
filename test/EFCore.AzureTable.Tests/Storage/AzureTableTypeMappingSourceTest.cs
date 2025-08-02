@@ -3,6 +3,8 @@
 
 using Microsoft.EntityFrameworkCore.AzureTable.Storage.Internal;
 using Microsoft.EntityFrameworkCore.Storage;
+using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Microsoft.EntityFrameworkCore.AzureTable.Storage;
 
@@ -12,8 +14,13 @@ public class AzureTableTypeMappingSourceTest
 
     public AzureTableTypeMappingSourceTest()
     {
+        var options = new DbContextOptionsBuilder().Options;
         _typeMappingSource = new AzureTableTypeMappingSource(
-            new TypeMappingSourceDependencies());
+            new TypeMappingSourceDependencies(
+                new ValueConverterSelector(new ValueConverterSelectorDependencies()), 
+                new JsonValueReaderWriterSource(new JsonValueReaderWriterSourceDependencies()),
+                Array.Empty<ITypeMappingSourcePlugin>()),
+            options);
     }
 
     [Theory]

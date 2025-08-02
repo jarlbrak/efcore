@@ -25,6 +25,7 @@ public class AzureTableOptionsExtension : IDbContextOptionsExtension
     private bool? _enableBatching;
     private TimeSpan? _requestTimeout;
     private int? _maxRetryAttempts;
+    private bool? _useUtcDateTimeConversion;
     private Func<ExecutionStrategyDependencies, IExecutionStrategy>? _executionStrategyFactory;
     private DbContextOptionsExtensionInfo? _info;
 
@@ -56,6 +57,7 @@ public class AzureTableOptionsExtension : IDbContextOptionsExtension
         _enableBatching = copyFrom._enableBatching;
         _requestTimeout = copyFrom._requestTimeout;
         _maxRetryAttempts = copyFrom._maxRetryAttempts;
+        _useUtcDateTimeConversion = copyFrom._useUtcDateTimeConversion;
         _executionStrategyFactory = copyFrom._executionStrategyFactory;
     }
 
@@ -147,6 +149,14 @@ public class AzureTableOptionsExtension : IDbContextOptionsExtension
     ///     doing so can result in application failures when updating to a new Entity Framework Core release.
     /// </summary>
     public virtual int MaxRetryAttempts => _maxRetryAttempts ?? 3;
+
+    /// <summary>
+    ///     This is an internal API that supports the Entity Framework Core infrastructure and not subject to
+    ///     the same compatibility standards as public APIs. It may be changed or removed without notice in
+    ///     any release. You should only use it directly in your code with extreme caution and knowing that
+    ///     doing so can result in application failures when updating to a new Entity Framework Core release.
+    /// </summary>
+    public virtual bool UseUtcDateTimeConversion => _useUtcDateTimeConversion ?? true;
 
     /// <summary>
     ///     This is an internal API that supports the Entity Framework Core infrastructure and not subject to
@@ -278,6 +288,19 @@ public class AzureTableOptionsExtension : IDbContextOptionsExtension
     ///     any release. You should only use it directly in your code with extreme caution and knowing that
     ///     doing so can result in application failures when updating to a new Entity Framework Core release.
     /// </summary>
+    public virtual AzureTableOptionsExtension WithUtcDateTimeConversion(bool useUtcDateTimeConversion)
+    {
+        var extension = Clone();
+        extension._useUtcDateTimeConversion = useUtcDateTimeConversion;
+        return extension;
+    }
+
+    /// <summary>
+    ///     This is an internal API that supports the Entity Framework Core infrastructure and not subject to
+    ///     the same compatibility standards as public APIs. It may be changed or removed without notice in
+    ///     any release. You should only use it directly in your code with extreme caution and knowing that
+    ///     doing so can result in application failures when updating to a new Entity Framework Core release.
+    /// </summary>
     public virtual AzureTableOptionsExtension WithExecutionStrategyFactory(
         Func<ExecutionStrategyDependencies, IExecutionStrategy>? executionStrategyFactory)
     {
@@ -376,6 +399,11 @@ public class AzureTableOptionsExtension : IDbContextOptionsExtension
                         builder.Append("MaxRetryAttempts=").Append(Extension._maxRetryAttempts.Value).Append(' ');
                     }
 
+                    if (Extension._useUtcDateTimeConversion.HasValue)
+                    {
+                        builder.Append("UseUtcDateTimeConversion=").Append(Extension._useUtcDateTimeConversion.Value).Append(' ');
+                    }
+
                     _logFragment = builder.ToString();
                 }
 
@@ -398,6 +426,7 @@ public class AzureTableOptionsExtension : IDbContextOptionsExtension
             hashCode.Add(Extension._enableBatching);
             hashCode.Add(Extension._requestTimeout);
             hashCode.Add(Extension._maxRetryAttempts);
+            hashCode.Add(Extension._useUtcDateTimeConversion);
             hashCode.Add(Extension._executionStrategyFactory);
             return hashCode.ToHashCode();
         }
@@ -416,6 +445,8 @@ public class AzureTableOptionsExtension : IDbContextOptionsExtension
                 = (Extension._requestTimeout?.TotalSeconds ?? 0).ToString(CultureInfo.InvariantCulture);
             debugInfo["AzureTable:" + nameof(AzureTableOptionsExtension.MaxRetryAttempts)]
                 = Extension.MaxRetryAttempts.ToString(CultureInfo.InvariantCulture);
+            debugInfo["AzureTable:" + nameof(AzureTableOptionsExtension.UseUtcDateTimeConversion)]
+                = Extension.UseUtcDateTimeConversion.ToString(CultureInfo.InvariantCulture);
         }
 
         public override bool ShouldUseSameServiceProvider(DbContextOptionsExtensionInfo other)
@@ -429,6 +460,7 @@ public class AzureTableOptionsExtension : IDbContextOptionsExtension
                 && Extension._enableBatching == otherInfo.Extension._enableBatching
                 && Extension._requestTimeout == otherInfo.Extension._requestTimeout
                 && Extension._maxRetryAttempts == otherInfo.Extension._maxRetryAttempts
+                && Extension._useUtcDateTimeConversion == otherInfo.Extension._useUtcDateTimeConversion
                 && Extension._executionStrategyFactory == otherInfo.Extension._executionStrategyFactory;
     }
 }
